@@ -1,0 +1,68 @@
+{
+    "1": {
+        "position": ["pitcher"]
+    },
+    "3": {
+        "position": ["outfielder"]
+    },
+    "5": {
+        "position": ["infielder"]
+    },
+    "9": {
+        "position": [
+            "infielder",
+            "outfielder"
+        ]
+    },
+    "11": {
+        "position": ["pitcher"]
+    },
+    "13": {
+        "position": [
+            "catcher",
+            "outfielder"
+        ]
+    },
+    "15": {
+        "position": ["pitcher"]
+    },
+    "19": {
+        "position": ["infielder"]
+    },
+    "22": {
+        "position": ["infielder"]
+    },
+    "28": {
+        "position": [
+            "infielder",
+            "outfielder"
+        ]
+    },
+    "36": {
+        "position": [
+            "pitcher",
+            "outfielder"
+        ]
+    },
+    "42": {
+        "position": ["outfielder"]
+    },
+    "47": {
+        "position": ["infielder"]
+    },
+    "75": {
+        "position": ["outfielder"]
+    },
+    "97": {
+        "position": ["pitcher"]
+    },
+    "何": {
+        "position": ["outfielder"]
+    },
+    "瑋": {
+        "position": ["pitcher"]
+    },
+    "CL": {
+        "position": ["catcher"]
+    }
+}
