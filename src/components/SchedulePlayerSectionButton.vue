@@ -5,10 +5,10 @@
   >
     <p 
       :class="{
-        selectable: (!isInselectedDrills && !isInselectedWeights) && numberDrills + numberWeights < 3,
+        selectable: isSelectable,
         drill: isInselectedDrills,
         weight: isInselectedWeights, 
-        unselectable: (!isInselectedDrills && !isInselectedWeights) && numberDrills + numberWeights >= 3
+        unselectable: !isSelectable && (!isInselectedDrills && !isInselectedWeights)
         }">
       {{ player }}
     </p>
@@ -47,6 +47,21 @@ export default {
         }
       }
       return false;
+    },
+    isSelectable() {
+      if (this.category == 1) {
+        if (this.numberDrills < 2) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        if (this.numberWeights < 1) {
+          return true;
+        } else {
+          return false;
+        }
+      }
     }
   },
   data: function () {
