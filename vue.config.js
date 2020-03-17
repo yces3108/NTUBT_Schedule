@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: './ntubt_schedule'
+    publicPath: './ntubt_schedule/'
 }
