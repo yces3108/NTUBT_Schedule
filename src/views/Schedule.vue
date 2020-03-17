@@ -1,24 +1,15 @@
 <template>
   <div class="schedule">
     <div>
-      <div :class="{
-        drillActive: trainingCategory==1,
-        drillNonactive: trainingCategory!=1,
-        trainingButton: true
-      }"
-        @click="changeTrainingToDrill"
-      >
-        小練
-      </div>
-      <div :class="{
-        weightActive: trainingCategory==2,
-        weightNonactive: trainingCategory!=2,
-        trainingButton: true
-      }"
-        @click="changeTrainingToWeight"
-      >
-        重訓
-      </div>
+      <TrainingSwitch @toggleTraining="changeTraining" />
+      <PositionSwitch
+        :highlightedPosition="highlightedPosition"
+        @changePosition="changePositionTo"
+        @changePositionToPithcer="changePositionTo"
+        @changePositionToCatcher="changePositionTo"
+        @changePositionToInfielder="changePositionTo"
+        @changePositionToOutfielder="changePositionTo"
+      />
     </div>
     <div class="schedule weekday-container">
       <h5 class="weekday border-color">時間</h5>
@@ -42,14 +33,16 @@
           @toggleThisSection="toggleSection"
         />
         <div class="section" v-for="day in days" :key="day" :day="day">
-          <div 
+          <div
             v-if="!isFoldedSections[sectionIndex]"
-            :strangeCount="strangeCount"            
-          ><!-- strangeCount是要讓vue實例知道要重新渲染 -->
-            <SchedulePlayerSectionButton              
+            :strangeCount="strangeCount"
+          >
+            <!-- strangeCount是要讓vue實例知道要重新渲染 -->
+            <SchedulePlayerSectionButton
               v-for="player in trainingTable[`${day},${sectionIndex}`]"
               :key="player"
               :player="player"
+              :positions="playerProfile[player]['position']"
               :day="day"
               :section="sectionIndex"
               :category="trainingCategory"
@@ -57,38 +50,24 @@
               :numberDrills="playerSections[1][player].length"
               :selectedWeights="playerSections[2][player]"
               :numberWeights="playerSections[2][player].length"
+              :highlightedPlayer="highlightedPlayer"
+              :highlightedPosition="highlightedPosition"
               @updateSections="updatePlayerSections"
             />
           </div>
         </div>
       </div>
     </div>
-
-    <div 
-      class="player-count-section"
-      v-for="(position, player) of playerProfile" 
-      :key="player"
-      :player="player"
-      :position="position"
+    <PlayerCount
+      :playerProfile="playerProfile"
+      :playerSections="playerSections"
+      :playerDrillSections="playerSections[1]"
+      :playerWeightSections="playerSections[2]"
+      :highlightedPlayer="highlightedPlayer"
+      :highlightedPosition="highlightedPosition"
       :strangeCount="strangeCount"
-    ><!-- strangeCount是要讓vue實例知道要重新渲染 -->
-      <div 
-        class="player-schedule-button">
-        {{ player }}
-      </div>
-      <div 
-        v-for="(sectionDrill, indexDrill) of playerSections[1][player]"
-        :key="indexDrill"
-        class="drill-count">
-      </div>
-      <div 
-        v-for="(sectionWeight, indexWeight) of playerSections[2][player]"
-        :key="indexWeight"
-        class="weight-count">
-      </div>
-      <p class="wrapper">
-      </p>
-    </div>
+      @highlightPlayer="highlight"
+    />
 <!--
     <SchedulePlayer 
       v-for="(position, player) of playerProfile" 
@@ -105,21 +84,27 @@
 <script>
 import trainingTimeJSON from "../assets/trainingTime.json"
 import playerProfileJSON from "../assets/playerProfile.json"
-import ScheduleSectionButton from "@/components/ScheduleSectionButton.vue";
-import SchedulePlayerSectionButton from "@/components/SchedulePlayerSectionButton.vue";
+import ScheduleSectionButton from "@/components/ScheduleButtons/ScheduleSectionButton.vue";
+import SchedulePlayerSectionButton from "@/components/ScheduleButtons/SchedulePlayerSectionButton.vue";
+import TrainingSwitch from "@/components/ScheduleButtons/TrainingSwitch.vue";
+import PositionSwitch from "@/components/ScheduleButtons/PositionSwitch.vue";
+import PlayerCount from "@/components/ScheduleButtons/PlayerCount.vue";
 //import SchedulePlayer from "@/components/SchedulePlayer.vue";
 // @ is an alias to /src
 
 export default {
-  name: "Home",
+  name: "Schedule",
   components: {
     ScheduleSectionButton,
-    SchedulePlayerSectionButton
+    SchedulePlayerSectionButton,
+    TrainingSwitch,
+    PositionSwitch,
+    PlayerCount
     //SchedulePlayer
   },
   data: function () {
     return {
-      trainingCategory: 1, // 1:小練, 2:重訓
+      trainingCategory: 2, // 1:小練, 2:重訓
       sections: [...Array(7).keys()],
       sectionDescriptions: [
         "7:00~9:00",
@@ -135,17 +120,24 @@ export default {
       isFoldedSections: [false, false, false, false, false, false, false],
       playerSections: Object,
       playerProfile: Object,
+      highlightedPlayer: "",
+      highlightedPosition: 0,
       strangeCount: 0
+      
     };
   },
   computed: {
   },
   methods: {
-    changeTrainingToDrill() {
-      this.trainingCategory = 1;
+    changeTraining(training) {
+      (training == 1) ? this.trainingCategory = 1 : this.trainingCategory = 2;
     },
-    changeTrainingToWeight() {
-      this.trainingCategory = 2;
+    changePositionTo(position) {
+      if (position == this.highlightedPosition) {
+        this.highlightedPosition = 0;
+      } else {
+        this.highlightedPosition = position;
+      }
     },
     getTrainingTable(trainingTime) {
       let trainingTable = new Object;
@@ -178,6 +170,13 @@ export default {
         this.playerSections[category][player].push([day, section]);
       }
       this.strangeCount++;
+    },
+    highlight(player) {
+      if (this.highlightedPlayer == player) {
+        this.highlightedPlayer = "";
+      } else {
+        this.highlightedPlayer = player;
+      }
     }
   },
   created() {
@@ -195,46 +194,6 @@ export default {
 </script>
 
 <style>
-.trainingButton {
-  cursor: pointer;
-  display: inline-block;
-  list-style-type: none;
-  width: 100px;
-  margin: 5px 10px;
-  border-radius: 5px; 
-  padding: 5px 10px;
-  font-size:  1.2rem;
-}
-.drillNonactive {
-  background-color: white;
-  color: rgb(39, 60, 86);  
-  border: 3px solid rgb(39, 60, 86); 
-}
-.drillNonactive:hover {
-  background-color: rgb(39, 60, 86);
-  color: white;  
-  border: 3px solid rgb(39, 60, 86)
-}
-.drillActive {
-  background-color: rgb(39, 60, 86);
-  color: white;  
-  border: 3px solid rgb(39, 60, 86)
-} 
-.weightNonactive {
-  background-color: white;
-  color: rgb(206, 49, 49);
-  border: 3px solid rgb(206, 49, 49);
-}
-.weightNonactive:hover {
-  background-color: rgb(206, 49, 49);
-  color: white;  
-  border: 3px solid rgb(206, 49, 49);
-}
-.weightActive {
-  background-color: rgb(206, 49, 49);
-  color: white;  
-  border: 3px solid rgb(206, 49, 49);
-}
 .schedule .weekday-container {
   display: grid;
   grid-template: auto / repeat(8, 1fr);
@@ -259,41 +218,6 @@ export default {
 }
 .section-description {
   line-height: 100%;
-  text-align: center;
-  vertical-align: middle;
-}
-.player-count-section {
-  display: inline-block;
-}
-.player-schedule-button {
-  display: block;
-  height: 20px;
-  line-height: 20px;
-  width: 20px;
-  margin: 2px 2px;
-  border: 0.5px solid rgb(39, 60, 86);
-  text-align: center;
-  vertical-align: middle;
-}
-.drill-count {
-  display: block;
-  height: 5px;
-  line-height: 20px;
-  width: 20px;
-  margin: 2px 2px;
-  border: 0.5px solid rgb(39, 60, 86);
-  background-color: rgb(39, 60, 86);
-  text-align: center;
-  vertical-align: middle;
-}
-.weight-count {
-  display: block;
-  height: 5px;
-  line-height: 20px;
-  width: 20px;
-  margin: 2px 2px;
-  border: 0.5px solid rgb(206, 49, 49);
-  background-color: rgb(206, 49, 49);
   text-align: center;
   vertical-align: middle;
 }

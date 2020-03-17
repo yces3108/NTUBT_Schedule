@@ -1,68 +1,86 @@
 {
     "1": {
-        "position": ["pitcher"]
+        "position": ["pitcher"],
+        "entrance": 106
     },
     "3": {
-        "position": ["outfielder"]
+        "position": ["outfielder"],
+        "entrance": 107
     },
     "5": {
-        "position": ["infielder"]
+        "position": ["infielder"],
+        "entrance": 103
     },
     "9": {
         "position": [
             "infielder",
             "outfielder"
-        ]
+        ],
+        "entrance": 106
     },
     "11": {
-        "position": ["pitcher"]
+        "position": ["pitcher"],
+        "entrance": 105
     },
     "13": {
         "position": [
             "catcher",
             "outfielder"
-        ]
+        ],
+        "entrance": 107
     },
     "15": {
-        "position": ["pitcher"]
+        "position": ["pitcher"],
+        "entrance": 105
     },
     "19": {
-        "position": ["infielder"]
+        "position": ["infielder"],
+        "entrance": 104
     },
     "22": {
-        "position": ["infielder"]
+        "position": ["infielder"],
+        "entrance": 105
     },
     "28": {
         "position": [
             "infielder",
             "outfielder"
-        ]
+        ],
+        "entrance": 107
     },
     "36": {
         "position": [
             "pitcher",
             "outfielder"
-        ]
+        ],
+        "entrance": 103
     },
     "42": {
-        "position": ["outfielder"]
+        "position": ["outfielder"],
+        "entrance": 105
     },
     "47": {
-        "position": ["infielder"]
+        "position": ["infielder"],
+        "entrance": 104
     },
     "75": {
-        "position": ["outfielder"]
+        "position": ["outfielder"],
+        "entrance": 106
     },
     "97": {
-        "position": ["pitcher"]
+        "position": ["pitcher"],
+        "entrance": 106
     },
     "何": {
-        "position": ["outfielder"]
+        "position": ["outfielder"],
+        "entrance": 108
     },
     "瑋": {
-        "position": ["pitcher"]
+        "position": ["pitcher"],
+        "entrance": 108
     },
     "CL": {
-        "position": ["catcher"]
+        "position": ["catcher"],
+        "entrance": 108
     }
 }
