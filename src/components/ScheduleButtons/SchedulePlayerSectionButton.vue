@@ -136,8 +136,8 @@ export default {
   color: white;
 }
 .player-section-button .pitcher {
-  border: 1px solid rgb(255, 75, 144);
-  background-color: rgb(255, 75, 144);
+  border: 1px solid rgb(255, 112, 167);
+  background-color: rgb(255, 112, 167);
   color: white;
 }
 .player-section-button .catcher {

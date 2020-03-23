@@ -18,9 +18,6 @@
             catcher: isCatcher(player) && player != highlightedPlayer,
             infielder: isInfielder(player) && player != highlightedPlayer,
             outfielder: isOutfielder(player) && player != highlightedPlayer
-
-
-
           }"
         >
           {{ player }}
@@ -69,9 +66,6 @@ export default {
     isOutfielder(player) {
       return this.highlightedPosition == 4 && this.playerProfile[player]['position'].includes("outfielder");
     }
-  },
-  updated() {
-    console.log(this.highlightedPosition);
   }
 };
 </script>
@@ -117,7 +111,6 @@ export default {
   width: 20px;
   margin: 2px 2px;
   text-align: center;
-  vertical-align: middle;
 }
 .drill-count {
   display: block;
@@ -129,7 +122,6 @@ export default {
   border: 0.5px solid rgb(39, 60, 86);
   background-color: rgb(39, 60, 86);
   text-align: center;
-  vertical-align: middle;
 }
 .weight-count {
   display: block;
@@ -141,6 +133,5 @@ export default {
   border: 0.5px solid rgb(206, 49, 49);
   background-color: rgb(206, 49, 49);
   text-align: center;
-  vertical-align: middle;
 }
 </style>

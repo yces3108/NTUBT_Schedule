@@ -1,3 +1,5 @@
 module.exports = {
-    publicPath: './ntubt_schedule/'
-}
+    publicPath: process.env.NODE_ENV === 'production'
+      ? '/NTUBT_Schedule/'
+      : '/'
+  }

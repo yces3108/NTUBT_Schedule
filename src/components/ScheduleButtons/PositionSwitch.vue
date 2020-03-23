@@ -56,20 +56,15 @@ export default {
   }, 
   computed: {
     isPitcher() {
-      console.log(this.highlightedPosition);
       return this.highlightedPosition == 1;
     }
   },
   methods: {
     changePositionTo(position) {
-      console.log(this.highlightedPosition);
       this.$emit("changePosition", position);
-      console.log(this.highlightedPosition);
     },
     changePositionToPithcer() {
-      console.log(this.highlightedPosition);
       this.$emit("changePosition", 1);
-      console.log(this.highlightedPosition);
     },
     changePositionToCatcher() {
       this.$emit("changePosition", 2);
